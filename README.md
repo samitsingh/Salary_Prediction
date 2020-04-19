@@ -50,6 +50,7 @@ The Finance & Oil are highest paying industries.
 Based on above statistics of Box plot, we observed that there are some outliers are present in salary column i.e minimum value is zero.  
 
 
+
 * Correlation Martix
 
 ![alt text](https://github.com/samitsingh/Salary_Prediction/blob/master/reports/figures/Correlation%20Matrix.PNG "Correlation Matrix")
@@ -77,7 +78,8 @@ To measure the effectiveness of the models that we are going to develop, we have
 
 ### Baseline model
 
-For any baseline model, We can calculate the Mean of target, which is a good estimate. In this project, we had alreay calculated 'group_mean' of target, so, We have used the same for baseline model
+For any baseline model, We can calculate the Mean of target, which is a good estimate. In this project, we had alreay calculated 'group_mean' of target. So, we have used the same for our baseline model.
+
 The mean MSE error obtained is :- *644.256325*
 
 ### Best model selection
