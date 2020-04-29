@@ -217,6 +217,7 @@ class FeatureEngg:
         self.cat_cols = ['jobType', 'degree', 'major', 'industry', 'companyId']
         self.impute_cols = ['jobType', 'industry', 'degree', 'major']
         self.id_col = 'jobId'
+		self.labels = {}
         self._process_feature_engg()
     
     def _process_feature_engg(self):
@@ -240,11 +241,15 @@ class FeatureEngg:
            
     def _Label_Encoder(self, df, cols, test_data=False):
         ''' This method creates label encoding for categorical data'''
-        for col in cols:
-            le = LabelEncoder()
-            if not test_data:
+        if not test_data:
+            for col in cols:
+                le = LabelEncoder()
                 le.fit(df[col])
-            df[col] = le.fit_transform(df[col])
+                self.labels[col] = le
+                df[col] = le.transform(df[col])
+        else:
+            for col, le in self.labels.items():
+                df[col] = le.transform(df[col])
         return df    
 
     def drop_cols(self, df, cols):
@@ -290,6 +295,11 @@ class FeatureEngg:
 
 
 class Eval_Model:
+    '''This class will perform model evaluation based on Mean Square Error. 
+    MSE -  It is the average squared difference between the estimated values and the actual value.
+    In this class we have defined a baseline model, which considers group_mean as predicted value and we are using 
+    the cross validation technique to calculate the MSE of 3 different models and then using best model to calculate 
+    the Best model out of 3 (Linear Regreesion, Extra Tree Regression & Light GBM Regression).'''
     
     def __init__(self, data, models):
         self.data = data
@@ -400,7 +410,10 @@ if __name__ == '__main__':
     Feature_engineering = FeatureEngg(data)
 
     #Create Model object to perform cross validation, select best model and perform prediction on test data
-    lr = LinearRegression()
+	# Here we have defined 3 different algorithms i.e Linear Regression, ExtraTreeRegressor and LightGBMregressor
+	# ExtraTreeRegressor and LightGBMRegressor are Ensemble methods and we have tuned their hyperparameters.
+    
+	lr = LinearRegression()
     etr = ExtraTreesRegressor(n_estimators=40, max_depth=12, min_samples_split=2,  min_samples_leaf=2,random_state=42)
     lgbm = LGBMRegressor(colsample_bytree= 0.8, max_depth=-1, n_estimators = 2000, num_leaves= 15, subsample= 1.0)
 
@@ -409,6 +422,7 @@ if __name__ == '__main__':
     model = Eval_Model(data, models)
     
     #Save submission file and best model
+
     model.save_results(sub_file,model.test_df)
     model.save_best_model(model_file, model.best_model)
     
