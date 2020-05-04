@@ -86,15 +86,15 @@ The mean MSE error obtained is :- *644.256325*
 
 For this regression task, 3 different machine learning algorithms were selected, one linear and two ensembles, to see which performs better for the problem:
 
-* Linear regressor.
-* Extra tree regressor.
-* LightGBM regressor.
+* Linear Regressor.
+* Extra Tree Regressor.
+* LightGBM Regressor.
 
 We have tuned both ensemble models and following results have been achieved:
 
 | Model                 | MSE           |
 | ----------------------|:-------------:|
-| Linear regressor      | 644.256325    |
+| Linear Regressor      | 358.148420    |
 | Extra Tree Regressor  | 316.868358    |
 | LightGBM Regressor    | 307.094494    |
 
